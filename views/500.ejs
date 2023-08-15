@@ -1,0 +1,7 @@
+<%- include('includes/head.ejs') %>
+<%- include('includes/navigation.ejs') %>
+    <h1 class="centered"><%= props.errorCode %> error</h1>
+    <% if(props.errorMessage != null) { %>
+        <p class="centered"><%= props.errorMessage %></p>
+    <% } %>
+<%- include('includes/end.ejs') %>
