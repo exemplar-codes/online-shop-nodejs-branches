@@ -19,6 +19,13 @@
             <label for="description">Description</label>
             <textarea name="description" id="description" rows="5"><%= editing ? prod.description : "" %></textarea>
         </div>
+        <% if (locals.adhocEmail) {%>
+            <!-- does not affect the app, just for learning purposes -->
+            <div class="form-control">
+                <label for="adhocEmail">Ad hoc email</label>
+                <input type="exmail" name="adhocEmail" id="adhocEmail" value="" %>" />
+            </div>
+        <% } %>
 
         <button class="btn" type="submit"><%= editing ? "Edit Product (admin)" : "Add Product (admin)" %></button>
     </form>

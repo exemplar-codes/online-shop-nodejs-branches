@@ -37,6 +37,8 @@ app.use((req, res, next) => {
     ...res.locals,
     showAuthLog: true,
     showCookiesLog: true,
+    isAuthenticated: true,
+    adhocEmail: true, // in edit product pagge
   };
 
   next();

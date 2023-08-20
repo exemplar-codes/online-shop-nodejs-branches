@@ -1,7 +1,9 @@
-<%- include('includes/head.ejs') %>
-<%- include('includes/navigation.ejs') %>
+<%- include('includes/head.ejs') %> <%- include('includes/navigation.ejs') %>
     <h1 class="centered"><%= props.errorCode %> error</h1>
-    <% if(props.errorMessage != null) { %>
-        <p class="centered"><%= props.errorMessage %></p>
-    <% } %>
-<%- include('includes/end.ejs') %>
+<% if(props.errorMessage != null) { %>
+    <div class="centered">
+    <textarea cols="100" rows="20">
+        <%= props.errorMessage %>
+    </textarea>
+    </div>
+<% } %> <%- include('includes/end.ejs') %>
