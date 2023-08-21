@@ -129,5 +129,29 @@ mongooseConnect(async (mongooseObject) => {
 
   console.log("Pre-scripts finished execution");
   console.log("------------------------------");
-  app.listen(3000);
+
+  const PORT = process.env.PORT || 3000;
+
+  app.listen(PORT, async () => {
+    console.log(`Running on port ${PORT}`);
+    const fetch = require("node-fetch");
+
+    const uri = "admin/edit-product";
+    const body = {};
+    const params = { p: 2 };
+
+    await fetch(
+      `http://localhost:${PORT}/${uri}?${
+        new URLSearchParams(params)?.toString() ?? "\b"
+      }`,
+      {
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    // run mock code here
+  });
 });
