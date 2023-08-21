@@ -39,7 +39,7 @@ app.use((req, res, next) => {
     showAuthLog: false,
     showCookiesLog: false,
     isAuthenticated: true,
-    adhocEmail: true, // in edit product pagge
+    adhocEmail: false, // in edit product pagge
   };
 
   next();

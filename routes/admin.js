@@ -20,30 +20,30 @@ router.post("/add-product", adminController.postAddProduct);
 // /admin/edit-product => POST
 router.post(
   "/edit-product/:productId",
-  /**
-   * @param value             Value to be validated (if present) | undefined
-   * @param {Object} req      Express request object
-   * @param {String} path     'address.country'
-   * @param {String} location 'body' | 'param' | 'header' | 'query'
-   *
-   * @returns truthy if no error | ( throw new Error('') | falsy )
-   */
-  check("adhocEmail")
-    .custom((value, obj, ob3) => {
-      // console.log(value);
-      // return true;
-      console.log(Object.keys(obj), ob3);
-      const { req, path, location } = obj;
-      console.log({
-        value,
-        secondArg: { path, location, req: "present" },
-        [`req.body`]: req.body,
-        [`req.params`]: req.params,
-      });
-      throw new Error("custom issue");
-    })
-    .isLength({ min: 8 })
-    .withMessage("email is too small)"),
+  // /**
+  //  * @param value             Value to be validated (if present) | undefined
+  //  * @param {Object} req      Express request object
+  //  * @param {String} path     'address.country'
+  //  * @param {String} location 'body' | 'param' | 'header' | 'query'
+  //  *
+  //  * @returns truthy if no error | ( throw new Error('') | falsy )
+  //  */
+  // check("adhocEmail")
+  //   .custom((value, obj, ob3) => {
+  //     // console.log(value);
+  //     // return true;
+  //     console.log(Object.keys(obj), ob3);
+  //     const { req, path, location } = obj;
+  //     console.log({
+  //       value,
+  //       secondArg: { path, location, req: "present" },
+  //       [`req.body`]: req.body,
+  //       [`req.params`]: req.params,
+  //     });
+  //     throw new Error("custom issue");
+  //   })
+  //   .isLength({ min: 8 })
+  //   .withMessage("email is too small)"),
   adminController.postEditProduct
 );
 // Note: alternatively we could have passed the id as a body, instead of using a dynamic param.
