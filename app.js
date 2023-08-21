@@ -27,6 +27,7 @@ app.set("view engine", "ejs");
 app.set("views", "views"); // not needed for this case, actually
 
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
 app.use(require("cookie-parser")());

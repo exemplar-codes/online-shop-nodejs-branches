@@ -19,9 +19,27 @@ router.post("/add-product", adminController.postAddProduct);
 
 // /admin/edit-product => POST
 router.post(
-  "/edit-product/:productId",
-  check("adhocEmail").custom((value, obj) => {
-    console.log(Object.keys(obj));
+  "/edit-product/",
+  /**
+   * @param value             Value to be validated (if present) | undefined
+   * @param {Object} req      Express request object
+   * @param {String} path     'address.country'
+   * @param {String} location 'body' | 'param' | 'header' | 'query'
+   *
+   * @returns truthy if no error | ( throw new Error('') | falsy )
+   */
+  check("adhocEmail").custom((value, obj, ob3) => {
+    // console.log(value);
+    // return true;
+    console.log(Object.keys(obj), ob3);
+    const { req, path, location } = obj;
+    console.log({
+      value,
+      href: req.url,
+      body: req.body,
+      params: req.params,
+      others: { path, location },
+    });
     throw new Error("custom issue");
   }),
   // .isLength({ min: 5 })
