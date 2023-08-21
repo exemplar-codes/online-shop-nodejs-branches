@@ -28,22 +28,22 @@ router.post(
    *
    * @returns truthy if no error | ( throw new Error('') | falsy )
    */
-  check("adhocEmail").custom((value, obj, ob3) => {
-    // console.log(value);
-    // return true;
-    console.log(Object.keys(obj), ob3);
-    const { req, path, location } = obj;
-    console.log({
-      value,
-      href: req.url,
-      body: req.body,
-      params: req.params,
-      others: { path, location },
-    });
-    throw new Error("custom issue");
-  }),
-  // .isLength({ min: 5 })
-  // .withMessage("thoda bada email bhejo"),
+  check("adhocEmail")
+    .custom((value, obj, ob3) => {
+      // console.log(value);
+      // return true;
+      console.log(Object.keys(obj), ob3);
+      const { req, path, location } = obj;
+      console.log({
+        value,
+        secondArg: { path, location, req: "present" },
+        [`req.body`]: req.body,
+        [`req.params`]: req.params,
+      });
+      throw new Error("custom issue");
+    })
+    .isLength({ min: 8 })
+    .withMessage("email is too small)"),
   adminController.postEditProduct
 );
 // Note: alternatively we could have passed the id as a body, instead of using a dynamic param.

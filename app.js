@@ -72,7 +72,7 @@ app.use(async (req, res, next) => {
 
 app.get("/try", async (req, res, next) => {
   await new Promise((r) => setTimeout(r, 1000));
-  return res.json({ time: new Date().toLocaleTimeString() });
+  return res.json({ password: "love", time: new Date().toLocaleTimeString() });
 });
 
 app.use(authRouter);
@@ -134,11 +134,16 @@ mongooseConnect(async (mongooseObject) => {
 
   app.listen(PORT, async () => {
     console.log(`Running on port ${PORT}`);
+    return;
     const fetch = require("node-fetch");
 
     const uri = "admin/edit-product";
-    const body = {};
-    const params = { p: 2 };
+    const params = {};
+    const body = {
+      adhocEmail: 2,
+      password: "hellox",
+      confirmPassword: "hello",
+    };
 
     await fetch(
       `http://localhost:${PORT}/${uri}?${
