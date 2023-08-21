@@ -19,7 +19,7 @@ router.post("/add-product", adminController.postAddProduct);
 
 // /admin/edit-product => POST
 router.post(
-  "/edit-product/",
+  "/edit-product/:productId",
   /**
    * @param value             Value to be validated (if present) | undefined
    * @param {Object} req      Express request object
