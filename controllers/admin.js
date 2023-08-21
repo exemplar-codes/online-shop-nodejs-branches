@@ -1,5 +1,7 @@
+const { validationResult } = require("express-validator");
 const { Product } = require("../models/Product");
 const mongoose = require("mongoose");
+const { renderErrorPage } = require("./error");
 
 const getAdminProducts = async (req, res, next) => {
   // Sequelize code, NOT USED NOW, left for observation
@@ -64,6 +66,12 @@ const postAddProduct = async (req, res, next) => {
   //   price: req.body.price,
   // });
 
+  const errors = validationResult(req);
+
+  console.log(req.body);
+  console.log({ errors });
+  return res.redirect("/");
+
   const product = new Product({
     title: req.body.title,
     imageUrl: req.body.imageUrl,
@@ -80,6 +88,22 @@ const postAddProduct = async (req, res, next) => {
 const postEditProduct = async (req, res, next) => {
   const admin = req.user;
   const prodId = req.params.productId;
+
+  if ("adhocEmail" in req.body) {
+    const errors = validationResult(req);
+    const errorsArray = errors.array();
+    const errorsMap = errors.mapped();
+    console.log({
+      body: req.body,
+      errorsArray,
+      errorsMap,
+    });
+    // return next();
+    return renderErrorPage(res, 500, {
+      errorMessage: JSON.stringify(errorsMap, null, 2).trim(),
+      // errorsMap?.adhocEmail?.msg ?? "xyz",
+    });
+  }
 
   // Sequelize code, NOT USED NOW, left for observation
   // const admin = req.user;

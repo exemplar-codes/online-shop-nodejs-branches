@@ -35,8 +35,8 @@ app.use(require("cookie-parser")());
 app.use((req, res, next) => {
   res.locals = {
     ...res.locals,
-    showAuthLog: true,
-    showCookiesLog: true,
+    showAuthLog: false,
+    showCookiesLog: false,
     isAuthenticated: true,
     adhocEmail: true, // in edit product pagge
   };

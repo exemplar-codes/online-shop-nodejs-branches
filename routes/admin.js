@@ -1,4 +1,5 @@
 const express = require("express");
+const { check, body, query } = require("express-validator");
 
 const router = express.Router();
 
@@ -17,7 +18,14 @@ router.get("/products", adminController.getAdminProducts);
 router.post("/add-product", adminController.postAddProduct);
 
 // /admin/edit-product => POST
-router.post("/edit-product/:productId", adminController.postEditProduct);
+router.post(
+  "/edit-product/:productId",
+  check("adhocEmail")
+    .isEmail()
+    .isLength({ min: 5 })
+    .withMessage("thoda bada email bhejo"),
+  adminController.postEditProduct
+);
 // Note: alternatively we could have passed the id as a body, instead of using a dynamic param.
 // Both ways are OK, depending upon style/conventions of the codebase.
 
