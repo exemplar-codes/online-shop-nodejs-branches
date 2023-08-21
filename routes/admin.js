@@ -20,10 +20,12 @@ router.post("/add-product", adminController.postAddProduct);
 // /admin/edit-product => POST
 router.post(
   "/edit-product/:productId",
-  check("adhocEmail")
-    .isEmail()
-    .isLength({ min: 5 })
-    .withMessage("thoda bada email bhejo"),
+  check("adhocEmail").custom((value, obj) => {
+    console.log(Object.keys(obj));
+    throw new Error("custom issue");
+  }),
+  // .isLength({ min: 5 })
+  // .withMessage("thoda bada email bhejo"),
   adminController.postEditProduct
 );
 // Note: alternatively we could have passed the id as a body, instead of using a dynamic param.
