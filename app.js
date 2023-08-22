@@ -95,6 +95,24 @@ app.post("/reset-all-data", async (req, res, next) => {
 
 app.use(errorController.get404);
 
+// visit `localhost:3000/admin/products` in the browser, or Postman GET
+app.use((err, req, res, next) => {
+  console.log("error mw 1");
+  res.status(500).send(err.message);
+
+  // throw new Error("err mw 1 itself failed");
+});
+
+app.use((req, res, next) => {
+  console.log("normal mw between error ones, ran (not supposed to)");
+  next();
+});
+
+app.use((err, req, res, next) => {
+  console.log("error mw 2");
+  res.status(500).send(err.message);
+});
+
 // express code
 
 // // start express from inside the mongoConnect callback

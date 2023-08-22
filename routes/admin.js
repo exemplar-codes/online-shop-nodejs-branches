@@ -12,7 +12,20 @@ router.get("/add-product", adminController.getAddProduct);
 router.get("/edit-product/:productId", adminController.getEditProduct);
 
 // admin/products => GET list of products added by admin
-router.get("/products", adminController.getAdminProducts);
+router.get(
+  "/products",
+  (req, res, next) => {
+    throw new Error("Deliberate throw error from sync mw");
+    // next(new Error("next(errorOrVariable) from sync mw"));
+    // throw new Error("Deliberate throw erro from async mw, wont work - app crashes");
+    // next(new Error("next(errorOrVariable) from  async mw"));
+  },
+  (req, res, next) => {
+    console.log("Not supposed to run, ran");
+    next();
+  },
+  adminController.getAdminProducts
+);
 
 // /admin/add-product => POST
 router.post("/add-product", adminController.postAddProduct);
