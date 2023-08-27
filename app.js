@@ -40,7 +40,7 @@ app.use((req, res, next) => {
     showCookiesLog: false,
     isAuthenticated: true,
     adhocEmail: false, // in edit product pagge
-    exampleFilePicker: true,
+    exampleFilePicker: false,
   };
 
   next();

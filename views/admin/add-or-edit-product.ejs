@@ -11,10 +11,18 @@
             <label for="price">Price</label>
             <input type="number" name="price" id="price" step="0.01" value="<%= editing ? prod.price : "" %>" />
         </div>
-        <div class="form-control">
-            <label for="imageUrl">Image URL</label>
-            <input type="text" name="imageUrl" id="imageUrl" value="<%= editing ? prod.imageUrl : "" %>" />
-        </div>
+        <% if (locals.exampleFilePicker) {%>
+            <!-- does not affect the app, just for learning purposes -->
+            <div class="form-control">
+                <label for="myFile">Select product image</label>
+                <input type="file" name="myFile" id="myFile" %>" />
+            </div>
+        <% } else { %>
+            <div class="form-control">
+                <label for="imageUrl">Image URL</label>
+                <input type="text" name="imageUrl" id="imageUrl" value="<%= editing ? prod.imageUrl : "" %>" />
+            </div>
+        <% } %>
         <div class="form-control">
             <label for="description">Description</label>
             <textarea name="description" id="description" rows="5"><%= editing ? prod.description : "" %></textarea>
