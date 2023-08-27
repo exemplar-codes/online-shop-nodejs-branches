@@ -49,6 +49,7 @@ app.use((req, res, next) => {
 
 // usual req logger middleware
 app.use((req, res, next) => {
+  console.log("req logger middleware");
   console.log({ body: req.body });
   next();
 });
