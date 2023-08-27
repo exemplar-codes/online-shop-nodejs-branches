@@ -39,7 +39,8 @@ app.use((req, res, next) => {
     showAuthLog: false,
     showCookiesLog: false,
     isAuthenticated: true,
-    adhocEmail: false, // in edit product pagge
+    adhocEmail: false, // in edit product page
+    dontValidateForms: true,
     exampleFilePicker: false,
   };
 

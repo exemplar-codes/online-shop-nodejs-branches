@@ -1,4 +1,18 @@
 <script src="/js/main.js"></script>
+<% if(dontValidateForms) { %>
+    <script>
+        document.querySelectorAll('main form').forEach(formNode => {
+            formNode.setAttribute('novalidate', true);
+            const flipperMessage = 'form validation is OFF';
+            const flipperMessageNode = document.createElement("p");
+            flipperMessageNode.innerHTML = 'form validation is OFF';
+            flipperMessageNode.style.color = 'gray';
+            flipperMessageNode.style.fontStyle = 'italic';
+
+            formNode.prepend(flipperMessageNode);
+        });
+    </script>
+<% } %>
 </body>
 
 </html>
