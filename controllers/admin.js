@@ -65,18 +65,21 @@ const postAddProduct = async (req, res, next) => {
   //   description: req.body.description,
   //   price: req.body.price,
   // });
+  try {
+    const product = new Product({
+      title: req.body.title,
+      imageUrl: req.body.imageUrl,
+      description: req.body.description,
+      price: req.body.price,
+      userId: req.user._id,
+    });
 
-  const product = new Product({
-    title: req.body.title,
-    imageUrl: req.body.imageUrl,
-    description: req.body.description,
-    price: req.body.price,
-    userId: req.user._id,
-  });
+    await product.save();
 
-  product.save();
-
-  res.redirect("/");
+    res.redirect("/");
+  } catch (e) {
+    next(e); // for error sink
+  }
 };
 
 const postEditProduct = async (req, res, next) => {

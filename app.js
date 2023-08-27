@@ -41,7 +41,7 @@ app.use((req, res, next) => {
     isAuthenticated: true,
     adhocEmail: false, // in edit product page
     dontValidateForms: true,
-    exampleFilePicker: false,
+    exampleFilePicker: true,
   };
 
   next();
@@ -105,12 +105,14 @@ app.use(errorController.get404);
 
 // error sink
 app.use((err, req, res, next) => {
-  console.log("Something went wrong");
+  console.log("Reached the error sink (terminal)");
   res.send(
     `<p>You reached the error sink</p>
     <p>Time: ${new Date().toLocaleTimeString()}</p>
     <hr />
-    <p><pre><code>${err}</code></pre></p>`
+    <p><pre><code>${
+      typeof err === typeof {} ? JSON.stringify(err, null, 2) : err.toString()
+    }</code></pre></p>`
   );
 });
 
