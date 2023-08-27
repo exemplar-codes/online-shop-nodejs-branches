@@ -10,6 +10,7 @@ const {
 
 const express = require("express");
 const bodyParser = require("body-parser");
+const multer = require("multer");
 const cors = require("cors");
 
 const app = express();
@@ -27,6 +28,7 @@ app.set("view engine", "ejs");
 app.set("views", "views"); // not needed for this case, actually
 
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(multer().single("myFile"));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
@@ -50,7 +52,8 @@ app.use((req, res, next) => {
 // usual req logger middleware
 app.use((req, res, next) => {
   console.log("req logger middleware");
-  console.log({ body: req.body });
+  console.log("Multer body", { body: req.body });
+  console.log("Multer file/files", { file: req.file, files: req.files });
   next();
 });
 
