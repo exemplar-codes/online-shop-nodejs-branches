@@ -66,12 +66,6 @@ const postAddProduct = async (req, res, next) => {
   //   price: req.body.price,
   // });
 
-  const errors = validationResult(req);
-
-  console.log(req.body);
-  console.log({ errors });
-  return res.redirect("/");
-
   const product = new Product({
     title: req.body.title,
     imageUrl: req.body.imageUrl,
