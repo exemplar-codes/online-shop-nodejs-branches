@@ -102,6 +102,17 @@ app.post("/reset-all-data", async (req, res, next) => {
 
 app.use(errorController.get404);
 
+// error sink
+app.use((err, req, res, next) => {
+  console.log("Something went wrong");
+  res.send(
+    `<p>You reached the error sink</p>
+    <p>Time: ${new Date().toLocaleTimeString()}</p>
+    <hr />
+    <p><pre><code>${err}</code></pre></p>`
+  );
+});
+
 // express code
 
 // // start express from inside the mongoConnect callback

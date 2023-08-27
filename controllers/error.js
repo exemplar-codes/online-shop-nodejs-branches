@@ -13,7 +13,7 @@ const get404 = (req, res, next) => {
  * @param {String=} docTitle
  * @param {String=} myActivePath
  */
-const renderErrorPage = (res, errorCode = 500, props) => {
+const renderErrorPage = (res, errorCode = 500, props = {}) => {
   const {
     errorMessage = "My server error",
     myActivePath = "",
