@@ -66,9 +66,11 @@ const postAddProduct = async (req, res, next) => {
   //   price: req.body.price,
   // });
   try {
+    // console.log("Got it?", req.file?.path);
+    // console.log("Got it? obj", req.file);
     const product = new Product({
       title: req.body.title,
-      imageUrl: req.body.imageUrl,
+      imageUrl: req.body.imageUrl || req.file?.path,
       description: req.body.description,
       price: req.body.price,
       userId: req.user._id,
