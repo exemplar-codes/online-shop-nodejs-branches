@@ -28,7 +28,17 @@ app.set("view engine", "ejs");
 app.set("views", "views"); // not needed for this case, actually
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(multer().single("myFile"));
+
+const multerConfig = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "multer-uploads");
+  },
+  filename: (req, file, cb) => {
+    cb(null, new Date().toISOString() + "-" + file.originalname);
+  },
+});
+
+app.use(multer({ storage: multerConfig }).array(["myFile"]));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
