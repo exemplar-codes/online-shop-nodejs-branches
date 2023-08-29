@@ -40,7 +40,21 @@ const multerConfig = multer.diskStorage({
   },
 });
 
-app.use(multer({ storage: multerConfig }).any());
+const multerFileFilter =
+  /**
+   * @returns cb(null, isAccepted)
+   */
+  (req, file, cb) => {
+    if (file.mimetype.includes("pdf")) {
+      // reject PDF
+      console.log("File rejected");
+      return cb(null, false);
+    }
+
+    console.log("File accepted");
+    cb(null, true);
+  };
+app.use(multer({ storage: multerConfig, fileFilter: multerFileFilter }).any());
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
