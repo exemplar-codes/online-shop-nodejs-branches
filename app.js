@@ -32,13 +32,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 const multerConfig = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "multer-uploads");
+    console.log("Destination called", file.originalname);
   },
   filename: (req, file, cb) => {
     cb(null, new Date().toISOString() + "-" + file.originalname);
+    console.log("fileName called", file.originalname);
   },
 });
 
-app.use(multer({ storage: multerConfig }).array(["myFile"]));
+app.use(multer({ storage: multerConfig }).any());
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
