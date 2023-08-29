@@ -20,7 +20,7 @@
     <script>
         document.querySelectorAll('main form').forEach(formNode => {
             const hasFilePicker = !!formNode.querySelector('input[type="file"]');
-            alert('Set to multipart formdata')
+            console.log('Set to multipart formdata')
             formNode.setAttribute('enctype', 'multipart/form-data');
         });
     </script>
