@@ -19,14 +19,21 @@ router.post("/orders", shopController.createOrder);
 // asset protection, make a conditional middleware that throws error if unauthorized
 const projectPath = require("../util/path");
 const path = require("node:path");
-router.use("/invoices/:orderId", (req, res, next) => {
+router.get("/invoices/:orderId", (req, res, next) => {
   const assetBelongsToUser = true;
   // const assetBelongsToUser = false; // mock that auth failed (not allowes)
 
   // goes to error sink
   if (!assetBelongsToUser)
     throw new Error("mock worked, not authorized to see invoice");
-  else res.download(path.join(projectPath, "invoices", req.params.orderId));
+  else {
+    res.setHeader("content-type", "application/pdf"); // set type
+    res.setHeader(
+      "content-disposition",
+      `inline; filename=invoice-${req.params.orderId}.pdf`
+    ); // (inline | attachment); filename="nameOfFile.myExtension"
+    res.sendFile(path.join(projectPath, "invoices", req.params.orderId));
+  }
 
   // next();
 });
