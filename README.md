@@ -11,3 +11,5 @@ Focus of this project:
 7. ~~Rewrite the app using it~~
 8. Explore Sessions and Cookies
 9. Add login and authentication flow (not authentication logic or details)
+
+![image](https://github.com/exemplar-codes/online-shop-nodejs-branches/assets/48156230/bc48a5e8-b2ec-4bad-acbb-a753c8efb3f5)
