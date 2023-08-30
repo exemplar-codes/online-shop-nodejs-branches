@@ -25,6 +25,23 @@
         });
     </script>
 <% } %>
+
+<!-- dynamic alts for unloaded images -->
+<!-- <script>
+  // https://github.com/sanjar-notes/web_dev_fundamentals/issues/93
+  function actionWhenImageDidntLoad() {
+    alert("Image couldnt load");
+  }
+
+  document.querySelectorAll("img").forEach((imgNode) => {
+    const isFetching = !imgNode.complete;
+    if (isFetching) {
+      imgNode.addEventListener("error", actionWhenImageDidntLoad);
+    } else if (!imgNode.naturalWidth) {
+      actionWhenImageDidntLoad();
+    }
+  });
+</script> -->
 </body>
 
 </html>
