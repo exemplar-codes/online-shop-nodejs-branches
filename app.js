@@ -117,6 +117,10 @@ app.use(async (req, res, next) => {
       email: firstUser?.email,
       id: firstUser?._id,
     });
+
+  if (!res.locals.isAuthenticated) {
+    next(new Error("Not authorized"));
+  }
   next();
 });
 
@@ -152,9 +156,17 @@ app.use((err, req, res, next) => {
     `<p>You reached the error sink</p>
     <p>Time: ${new Date().toLocaleTimeString()}</p>
     <hr />
-    <p><pre><code>${
-      typeof err === typeof {} ? JSON.stringify(err, null, 2) : err.toString()
-    }</code></pre></p>`
+    <p>Error message<pre><code>${JSON.stringify(
+      err.message,
+      null,
+      2
+    )}</code></pre></p>
+    <hr />
+    <p>Error - Stringified JSON<pre><code>${JSON.stringify(
+      err,
+      null,
+      2
+    )}</code></pre></p>`
   );
 });
 
