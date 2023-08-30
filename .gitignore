@@ -110,3 +110,4 @@ id_ed25519_temp.pub
 .DS_Store
 
 multer-uploads/
+invoices/

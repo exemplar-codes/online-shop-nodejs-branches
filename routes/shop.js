@@ -16,4 +16,19 @@ router.post("/cart", shopController.postCart);
 router.post("/orders", shopController.createOrder);
 // router.put("/checkout", shopController.checkoutEditPage);
 
+// asset protection, make a conditional middleware that throws error if unauthorized
+const projectPath = require("../util/path");
+const path = require("node:path");
+router.use("/invoices/:orderId", (req, res, next) => {
+  const assetBelongsToUser = true;
+  // const assetBelongsToUser = false; // mock that auth failed (not allowes)
+
+  // goes to error sink
+  if (!assetBelongsToUser)
+    throw new Error("mock worked, not authorized to see invoice");
+  else res.download(path.join(projectPath, "invoices", req.params.orderId));
+
+  // next();
+});
+
 module.exports = router;

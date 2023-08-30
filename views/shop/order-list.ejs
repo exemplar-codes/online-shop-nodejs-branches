@@ -12,6 +12,7 @@
                 <th><%= keyName %></th>
               <% } %>
               <th><em>Action</em></th>
+              <th><em>Invoice</em></th>
             </tr>
           </thead>
           <tbody>
@@ -22,6 +23,9 @@
                 <% } %>
                 <td>
                   <a href="/orders/<%= order._id || order.id %>">Details</a>
+                </td>
+                <td>
+                  <a href="/invoices/<%= order._id || order.id %>">Details</a>
                 </td>
               </tr>
             <% } %>
