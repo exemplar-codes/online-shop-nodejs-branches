@@ -70,7 +70,8 @@ const postAddProduct = async (req, res, next) => {
     // console.log("Got it? obj", req.file);
     const product = new Product({
       title: req.body.title,
-      imageUrl: req.body.imageUrl || req.file?.path,
+      // imageUrl: req.body.imageUrl || "/" + req.file?.path?.split("/")?.at(-1),
+      imageUrl: req.body.imageUrl || "/" + req.file?.filename, // better than the .split thing (let name always be unique)
       description: req.body.description,
       price: req.body.price,
       userId: req.user._id,
@@ -117,7 +118,7 @@ const postEditProduct = async (req, res, next) => {
     new mongoose.mongo.ObjectId(prodId),
     {
       title: req.body.title,
-      imageUrl: req.body.imageUrl,
+      imageUrl: req.body.imageUrl || "/" + req.file?.filename,
       description: req.body.description,
       price: req.body.price,
     }

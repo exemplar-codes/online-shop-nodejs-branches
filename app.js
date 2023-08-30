@@ -61,15 +61,16 @@ app.use(
 );
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "multer-uploads")));
 app.use(cors());
 app.use(require("cookie-parser")());
 
-// add multer-uploads getter
-app.get("/multer-uploads/:requestedFileName", (req, res, next) => {
-  res.sendFile(
-    path.join(__dirname, "multer-uploads", req.params.requestedFileName)
-  );
-});
+// // add multer-uploads getter - not needed now
+// app.get("/multer-uploads/:requestedFileName", (req, res, next) => {
+//   res.sendFile(
+//     path.join(__dirname, "multer-uploads", req.params.requestedFileName)
+//   );
+// });
 
 // learning flipper flags - to hide logs if they become too much
 app.use((req, res, next) => {
