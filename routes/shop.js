@@ -19,6 +19,7 @@ router.post("/orders", shopController.createOrder);
 // asset protection, make a conditional middleware that throws error if unauthorized
 const projectPath = require("../util/path");
 const path = require("node:path");
+const fs = require("node:fs");
 router.get("/invoices/:orderId", (req, res, next) => {
   const assetBelongsToUser = true;
   // const assetBelongsToUser = false; // mock that auth failed (not allowes)
@@ -32,7 +33,14 @@ router.get("/invoices/:orderId", (req, res, next) => {
       "content-disposition",
       `inline; filename=invoice-${req.params.orderId}.pdf`
     ); // (inline | attachment); filename="nameOfFile.myExtension"
-    res.sendFile(path.join(projectPath, "invoices", req.params.orderId));
+    // res.sendFile(path.join(projectPath, "invoices", req.params.orderId));
+    const fileStream = fs.createReadStream(
+      path.join(projectPath, "invoices", req.params.orderId)
+    );
+
+    res.statusCode = 200;
+
+    fileStream.pipe(res);
   }
 
   // next();
