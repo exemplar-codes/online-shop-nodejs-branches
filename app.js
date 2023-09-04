@@ -1,4 +1,6 @@
 const path = require("path");
+const fs = require("node:fs");
+const PDFDocument = require("pdfkit");
 
 const {
   mongooseConnect,
@@ -21,6 +23,7 @@ const errorController = require("./controllers/error");
 const { User, prepopulateUsers } = require("./models/User");
 const { Product, prepopulateProducts } = require("./models/Product");
 const authRouter = require("./routes/auth.js");
+const { createWriteStream } = require("fs");
 
 // app.set('view engine', 'pug');
 // app.set('views', 'views'); // not needed for this case, actually
@@ -121,7 +124,7 @@ app.use(async (req, res, next) => {
   if (!res.locals.isAuthenticated) {
     next(new Error("Not authorized"));
   }
-  next();
+  next(null);
 });
 
 app.get("/try", async (req, res, next) => {
@@ -145,6 +148,32 @@ app.post("/reset-all-data", async (req, res, next) => {
   const firstSampleUser = await prepopulateUsers();
   await prepopulateProducts(firstSampleUser);
   res.redirect("/");
+});
+
+let count = 1;
+app.use("/get-pdf", async (req, res, next) => {
+  const pdfDoc = new PDFDocument();
+  const fileName_ = count + ".pdf";
+  count++;
+  const filePath = path.join(__dirname, fileName_);
+  const t = createWriteStream(filePath);
+  pdfDoc.pipe(t);
+  pdfDoc.pipe(res);
+
+  pdfDoc
+    .fontSize(20)
+    .fillColor("red")
+    .text("First line of textp" + fileName_, { underline: true })
+    .fillColor("black");
+  pdfDoc.text("Second line of text");
+
+  res.on("close", (err) => {
+    fs.unlink(fileName_, (err) => {
+      if (err) next(err);
+    });
+  });
+
+  pdfDoc.end();
 });
 
 app.use(errorController.get404);
