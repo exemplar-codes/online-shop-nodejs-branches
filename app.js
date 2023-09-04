@@ -85,6 +85,7 @@ app.use((req, res, next) => {
     adhocEmail: false, // in edit product page
     dontValidateForms: true,
     exampleFilePicker: true,
+    showMulterLogs: false,
   };
 
   next();
@@ -92,9 +93,11 @@ app.use((req, res, next) => {
 
 // usual req logger middleware
 app.use((req, res, next) => {
-  console.log("req logger middleware");
-  console.log("Multer body", { body: req.body });
-  console.log("Multer file/files", { file: req.file, files: req.files });
+  if (res.locals.showMulterLogs) {
+    console.log("req logger middleware");
+    console.log("Multer body", { body: req.body });
+    console.log("Multer file/files", { file: req.file, files: req.files });
+  }
   next();
 });
 
