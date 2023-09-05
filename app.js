@@ -2,6 +2,10 @@ const path = require("path");
 const fs = require("node:fs");
 const PDFDocument = require("pdfkit");
 
+const SERVER_FLAGS = {
+  AUTO_RELOAD_BROWSER: false,
+};
+
 const {
   mongooseConnect,
   getDb,
@@ -24,6 +28,11 @@ const { User, prepopulateUsers } = require("./models/User");
 const { Product, prepopulateProducts } = require("./models/Product");
 const authRouter = require("./routes/auth.js");
 const { createWriteStream } = require("fs");
+
+if (SERVER_FLAGS.AUTO_RELOAD_BROWSER) {
+  const autoReloadBrowser = require("./util/auto-reload-browser.js");
+  app.use(autoReloadBrowser());
+}
 
 // app.set('view engine', 'pug');
 // app.set('views', 'views'); // not needed for this case, actually
@@ -74,7 +83,9 @@ app.use(require("cookie-parser")());
 //     path.join(__dirname, "multer-uploads", req.params.requestedFileName)
 //   );
 // });
-
+const a = {
+  age: 2,
+};
 // learning flipper flags - to hide logs if they become too much
 app.use((req, res, next) => {
   res.locals = {
@@ -216,6 +227,7 @@ app.use((err, req, res, next) => {
 // });
 
 let ranOnceAlready = false;
+
 mongooseConnect(async (mongooseObject) => {
   await prepopulateIrrelevantSampleData();
   const firstSampleUser = await prepopulateUsers();
