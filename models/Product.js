@@ -1,4 +1,9 @@
 const mongoose = require("mongoose");
+
+const SEEDING_FLAGS = {
+  extraProducts: false, // set to true and re-run to add 50 products (wii games)
+};
+
 const productSchema = new mongoose.Schema({
   price: { type: Number, required: true },
   title: { type: String, required: true },
@@ -27,6 +32,22 @@ const SAMPLE_PRODUCTS = [
     description: "A performant, quiet laptop",
   },
 ];
+
+if (SEEDING_FLAGS.extraProducts) {
+  const WII_GAMES = require("./WII_GAMES.json");
+  // Source: https://www.thetoptens.com/wii/best-nintendo-wii-games/
+
+  const WII_GAMES_CLEANED = WII_GAMES.map(
+    ({ title, price, imageUrl, description }) => ({
+      title,
+      price,
+      imageUrl,
+      description: description,
+    })
+  );
+  SAMPLE_PRODUCTS.push(...WII_GAMES_CLEANED);
+}
+
 const prepopulateProducts = async (sampleUser) => {
   const existingProduct = await Product.findOne();
   if (existingProduct) {
