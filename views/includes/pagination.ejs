@@ -1,0 +1,9 @@
+<section class="pagination">
+  <% for(let i = 0; i < Math.ceil(total/pageSize); i++) { %>
+  <div
+    class="pagination-pill <%= page === i + 0 ? 'pagination-pill--selected': ''%>"
+  >
+    <%= i + 1%>
+  </div>
+  <% } %>
+</section>

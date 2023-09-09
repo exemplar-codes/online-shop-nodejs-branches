@@ -2,6 +2,7 @@
 <%- include('../includes/navigation.ejs') %>
 
 <main>
+  <%- include('../includes/pagination.ejs') %>
   <div class="grid">
     <% if(prods.length === 0) {  %>
       <h2 class="centered">No products found! Please add some</h2>
@@ -32,5 +33,6 @@
     </article>
     <% } %>
   </div>
+  <%- include('../includes/pagination.ejs') %>
 </main>
 <%- include('../includes/end.ejs') %>
