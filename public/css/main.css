@@ -183,6 +183,7 @@ table * {
   /* make image be in center (if image is inherently small) */
   text-align: center;
   margin-bottom: auto;
+  padding: 16px;
 }
 
 .card__image img {
