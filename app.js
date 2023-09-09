@@ -3,7 +3,18 @@ const fs = require("node:fs");
 const PDFDocument = require("pdfkit");
 
 const SERVER_FLAGS = {
-  AUTO_RELOAD_BROWSER: false,
+  autoLoadBrowser: false,
+  showAuthLog: false,
+  showCookiesLog: false,
+  isAuthenticated: true,
+  adhocEmail: false, // in edit product page
+  dontValidateForms: false,
+
+  exampleFilePicker: false,
+  showMulterLogs: false,
+
+  printPaginationParams: true,
+  sendPaginationParams: false,
 };
 
 const {
@@ -33,7 +44,7 @@ const {
   paginationLoggers,
 } = require("./util/middlewares/pagination.js");
 
-if (SERVER_FLAGS.AUTO_RELOAD_BROWSER) {
+if (SERVER_FLAGS.autoLoadBrowser) {
   const autoReloadBrowser = require("./util/auto-reload-browser.js");
   app.use(autoReloadBrowser());
 }
@@ -94,16 +105,7 @@ const a = {
 app.use((req, res, next) => {
   res.locals = {
     ...res.locals,
-    showAuthLog: false,
-    showCookiesLog: false,
-    isAuthenticated: true,
-    adhocEmail: false, // in edit product page
-    dontValidateForms: true,
-    exampleFilePicker: true,
-    showMulterLogs: false,
-
-    printPaginationParams: false,
-    sendPaginationParams: false,
+    ...SERVER_FLAGS,
   };
 
   next();
@@ -111,7 +113,7 @@ app.use((req, res, next) => {
 
 // usual req logger middleware
 app.use((req, res, next) => {
-  if (res.locals.showMulterLogs) {
+  if (SERVER_FLAGS.showMulterLogs) {
     console.log("req logger middleware");
     console.log("Multer body", { body: req.body });
     console.log("Multer file/files", { file: req.file, files: req.files });
@@ -128,7 +130,7 @@ app.use(async (req, res, next) => {
   // res.setHeader("set-cookie", "abc=; max-age=0;");
   res.clearCookie("abce");
 
-  if (res.locals.showCookiesLog) {
+  if (SERVER_FLAGS.showCookiesLog) {
     console.log(req.cookies, req.headers.cookie);
   }
 
@@ -136,13 +138,13 @@ app.use(async (req, res, next) => {
   const [firstUser = null] = await User.find(); // as of now, this is the sample user
   req.user = firstUser;
 
-  if (res.locals.showAuthLog)
+  if (SERVER_FLAGS.showAuthLog)
     console.log("Mock authentication success", {
       email: firstUser?.email,
       id: firstUser?._id,
     });
 
-  if (!res.locals.isAuthenticated) {
+  if (!SERVER_FLAGS.isAuthenticated) {
     next(new Error("Not authorized"));
   }
   next(null);
