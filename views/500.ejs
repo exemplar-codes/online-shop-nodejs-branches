@@ -1,9 +1,13 @@
 <%- include('includes/head.ejs') %> <%- include('includes/navigation.ejs') %>
     <h1 class="centered"><%= props.errorCode %> error</h1>
 <% if(props.errorMessage != null) { %>
-    <div class="centered">
-    <textarea cols="100" rows="20">
-        <%= props.errorMessage %>
-    </textarea>
-    </div>
+    <% if(props.verbose) { %>
+        <%- props.errorMessage %>
+    <% } else { %>
+        <div class="centered">
+        <textarea cols="100" rows="20">
+            <%= props.errorMessage %>
+        </textarea>
+        </div>
+    <% } %>
 <% } %> <%- include('includes/end.ejs') %>

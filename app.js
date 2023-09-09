@@ -204,22 +204,27 @@ app.use(errorController.get404);
 // error sink
 app.use((err, req, res, next) => {
   console.log("Reached the error sink (terminal)");
-  res.send(
-    `<p>You reached the error sink</p>
-    <p>Time: ${new Date().toLocaleTimeString()}</p>
-    <hr />
-    <p>Error message<pre><code>${JSON.stringify(
-      err.message,
-      null,
-      2
-    )}</code></pre></p>
-    <hr />
-    <p>Error - Stringified JSON<pre><code>${JSON.stringify(
-      err,
-      null,
-      2
-    )}</code></pre></p>`
-  );
+  const content = `<p>You reached the error sink</p>
+  <p>Time: ${new Date().toLocaleTimeString()}</p>
+  <hr />
+  <p>Error message<pre><code>${JSON.stringify(
+    err.message,
+    null,
+    2
+  )}</code></pre></p>
+  <hr />
+  <p>Error - Stringified JSON<pre><code>${JSON.stringify(
+    err,
+    null,
+    2
+  )}</code></pre></p>`;
+
+  return errorController.renderErrorPage(res, res.statusCode, {
+    errorMessage: content,
+    verbose: true,
+  });
+
+  res.send(content);
 });
 
 // mongodb and server intialization
