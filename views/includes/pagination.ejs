@@ -17,7 +17,7 @@
 
   <!-- first page -->
   <% if (PAGINATION_FLAGS.showFirst) { %>
-    <a href="<%=`${myActivePath}?page=${firstPage}`%>" class="cleaned_link">
+    <a title="First page" href="<%=`${myActivePath}?page=${firstPage}`%>" class="cleaned_link" >
       <div
         class="pagination-pill <%= currentPage === firstPage ? 'pagination-pill--selected pagination-pill--disabled': ''%>"
       >
@@ -29,7 +29,7 @@
 
   <!-- previous page -->
   <% if (PAGINATION_FLAGS.showPrevious) { %>
-    <a href="<%=`${myActivePath}?page=${currentPage - 1}`%>" class="cleaned_link" style="margin-right: 30px">
+    <a title="previous" href="<%=`${myActivePath}?page=${currentPage - 1}`%>" class="cleaned_link" style="margin-right: 30px">
       <div
         class="pagination-pill <%= currentPage === firstPage ? 'pagination-pill--selected pagination-pill--disabled': ''%>"
       >
@@ -57,7 +57,7 @@
 
   <!-- next page -->
   <% if (PAGINATION_FLAGS.showNext) { %>
-    <a href="<%=`${myActivePath}?page=${currentPage + 1}`%>" class="cleaned_link" style="margin-left: 30px">
+    <a title="next" href="<%=`${myActivePath}?page=${currentPage + 1}`%>" class="cleaned_link" style="margin-left: 30px">
       <div
         class="pagination-pill <%= currentPage === lastPage ? 'pagination-pill--selected pagination-pill--disabled': ''%>"
       >
@@ -68,7 +68,7 @@
 
     <!-- last page -->
   <% if (PAGINATION_FLAGS.showLast) { %>
-    <a href="<%=`${myActivePath}?page=${lastPage}`%>" class="cleaned_link">
+    <a title="last page" href="<%=`${myActivePath}?page=${lastPage}`%>" class="cleaned_link">
       <div
         class="pagination-pill <%= currentPage === lastPage ? 'pagination-pill--selected pagination-pill--disabled': ''%>"
       >
