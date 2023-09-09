@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start-server": "node app.js",
-    "start": "nodemon app.js --ignore data/",
+    "start": "DEVELOPMENT_MODE=true nodemon app.js --ignore data/",
     "_comment_about_start": "add exclusion for Nodemon, since the data will change, obviously"
   },
   "author": "Muhammad Sanjar Afaq",

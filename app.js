@@ -98,9 +98,7 @@ app.use(require("cookie-parser")());
 //     path.join(__dirname, "multer-uploads", req.params.requestedFileName)
 //   );
 // });
-const a = {
-  age: 2,
-};
+
 // learning flipper flags - to hide logs if they become too much
 app.use((req, res, next) => {
   res.locals = {
@@ -222,21 +220,8 @@ app.use((err, req, res, next) => {
   );
 });
 
-// express code
-
-// // start express from inside the mongoConnect callback
-// mongoConnect(async (client) => {
-//   await prepopulateIrrelevantSampleData();
-//   const firstSampleUser = await User.prepopulateUsers();
-//   await Product.prepopulateProducts(firstSampleUser);
-//   console.log("Pre-scripts finished execution");
-//   console.log("------------------------------");
-
-//   app.listen(3000);
-// });
-
+// mongodb and server intialization
 let ranOnceAlready = false;
-
 mongooseConnect(async (mongooseObject) => {
   await prepopulateIrrelevantSampleData();
   const firstSampleUser = await prepopulateUsers();
