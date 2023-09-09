@@ -15,6 +15,8 @@ const SERVER_FLAGS = {
 
   printPaginationParams: true,
   sendPaginationParams: false,
+
+  showRawDataControls: !!process.env.DEVELOPMENT_MODE,
 };
 
 const {

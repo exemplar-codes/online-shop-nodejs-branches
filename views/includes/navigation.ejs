@@ -10,7 +10,7 @@
                 <li class="main-header__item"><a href="/admin/products" class="<%= myActivePath === "/admin/products" ? "active": "" %>">Admin Products</a></li>
             <% } %>
         </ul>
-        <% if(!myActivePath.includes('404')) { %>
+        <% if(showRawDataControls && !myActivePath.includes('404')) { %>
             <ul>
                 <form method="POST" action="/admin/delete-all-products">
                     <button type="submit">Delete products</button>
