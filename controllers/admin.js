@@ -2,7 +2,6 @@ const { validationResult } = require("express-validator");
 const { Product } = require("../models/Product");
 const mongoose = require("mongoose");
 const { renderErrorPage } = require("./error");
-const rateLimiter = require("../util/middlewares/rate-limiter");
 
 const getAdminProducts = async (req, res, next) => {
   // Sequelize code, NOT USED NOW, left for observation
@@ -68,14 +67,6 @@ const getEditProduct = async (req, res, next) => {
     docTitle: "Edit product",
     prod: product,
     editing: true,
-  });
-};
-
-const postAddProductRateLimiter = (req, res, next) => {
-  return rateLimiter(async (req, res) => {
-    const productCount = await Product.count();
-    console.log({ productCount });
-    return productCount > 25;
   });
 };
 
@@ -209,7 +200,6 @@ module.exports = {
   getAdminProducts,
   getAddProduct,
   postAddProduct,
-  postAddProductRateLimiter,
   deleteAllProducts,
   getEditProduct,
   postEditProduct,
