@@ -10,41 +10,59 @@
 
 // group by filter_by, then accumulate values and their corresponding negatives
 
-// worry only about page, page_size and offset. Set default if input undefined or invalid
+// worry only about page, pageSize and offset. Set default if input undefined or invalid
 function paginationMidddleware(req, res, next = () => {}) {
   // 1. check and set undefined
-  const page = req.query.page ?? 1;
-  const page_size = req.query.page_size ?? 5;
-  const offset = req.query.offset ?? 0;
+  let page = parseInt(req.query.page ?? 1);
+  page = Math.max(1, page - 1);
+
+  let pageSize = parseInt(req.query.pageSize ?? 5);
+  pageSize = Math.max(1, pageSize);
+
+  let offset = parseInt(req.query.offset ?? 0);
+  offset = Math.max(0, offset);
 
   // 2. Find invalid values and fix them
   // const paginationParams = {
   //   page: req.query.page ?? 1,
-  //   page_size: req.query.page_size ?? 20,
+  //   pageSize: req.query.pageSize ?? 20,
   //   offset: req.query.offset ?? 0,
   // };
 
   const paginationParams = {
     page,
-    page_size,
+    pageSize,
     offset,
   };
 
+  // 3. DB pagination params equivalent
+  // do virtual calculation from page, pageSize and offset
+  // calculate limit and skip
+  // limit = pageSize ok!
+  // skip = (offset) + 0 (if page=1)
+  // skip = (offset) + pageSize * (page - 1)  (if page=2)
+  // skip = offset + pageSize * (page - 1) ok!
+  const limit = pageSize;
+  const skip = offset + pageSize * (page - 1);
+  const dbPaginationParams = { limit, skip };
+
   res.locals.paginationParams = paginationParams;
+  res.locals.dbPaginationParams = dbPaginationParams;
+
   next();
-  return paginationParams;
+  return { paginationParams, dbPaginationParams };
 }
 
 // assume array of Infinite size
 // arr
 //   .splice(0, offset)
-//   .chunkInto(Math.max(1, Math.min(20, page_size)))
+//   .chunkInto(Math.max(1, Math.min(20, pageSize)))
 //   .at(Math.max(1, page - 1));
 
 function paginationMidddleware__experimental(req, res, next = () => {}) {
   const PAGINATION_KEYS = {
     PAGE: "page",
-    PAGE_SIZE: "page_size",
+    PAGE_SIZE: "pageSize",
     OFFSET: "offset",
 
     // SORT_BY: "sort_by",
@@ -88,10 +106,10 @@ function paginationLoggers(req, res, next = () => {}) {
   if (!res.locals.printPaginationParams && !res.locals.sendPaginationParams)
     return next();
 
-  const paginationParams = paginationMidddleware(req, res);
+  const allPaginationStuff = paginationMidddleware(req, res);
 
   if (res.locals.printPaginationParams) {
-    console.log(req.url, { paginationParams });
+    console.log(req.url, allPaginationStuff);
   }
 
   if (res.locals.sendPaginationParams) {

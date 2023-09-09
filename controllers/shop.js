@@ -24,15 +24,20 @@ const indexPage = async (req, res, next) => {
 };
 
 const getProducts = async (req, res, next) => {
-  const products = await Product.find().lean();
+  const { page, pageSize, offset } = res.locals.paginationParams;
+  const { skip, limit } = res.locals.dbPaginationParams;
+
+  const productsCount = await Product.count();
+  const products = await Product.find().skip(skip).limit(limit).lean();
 
   res.render("shop/product-list", {
     prods: products,
     docTitle: "Products",
     myActivePath: "/products",
-    page: res.locals.paginationParams.page,
-    pageSize: res.locals.paginationParams.page_size,
-    total: products.length,
+    page,
+    pageSize,
+    offset,
+    total: productsCount,
   });
 };
 
