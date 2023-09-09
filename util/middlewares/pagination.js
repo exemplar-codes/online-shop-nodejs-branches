@@ -14,7 +14,7 @@
 function paginationMidddleware(req, res, next = () => {}) {
   // 1. check and set undefined
   let page = parseInt(req.query.page ?? 1);
-  page = Math.max(1, page - 1);
+  page = Math.max(1, page);
 
   let pageSize = parseInt(req.query.pageSize ?? 5);
   pageSize = Math.max(1, pageSize);

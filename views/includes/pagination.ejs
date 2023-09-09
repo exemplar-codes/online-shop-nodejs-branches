@@ -1,9 +1,17 @@
 <section class="pagination">
-  <% for(let i = 1; i <= Math.ceil(total/pageSize); i++) { %>
-  <div
-    class="pagination-pill <%= page === i ? 'pagination-pill--selected': ''%>"
-  >
-    <%= i %>
-  </div>
+  <% let firstPage = 1;%>
+  <% let currentPage = page; %>
+  <% let lastPage = Math.ceil(total/pageSize); %>
+
+  <% for(let i = firstPage; i <= lastPage; i++) { %>
+  <a href="<%=`${myActivePath}?page=${i}`%>" class="cleaned_link">
+    <div
+      class="pagination-pill <%= i === currentPage ? 'pagination-pill--selected': ''%>"
+    >
+      <%= i %>
+    </div>
+  </a>
   <% } %>
+
+  <!-- <%= JSON.stringify({firstPage, currentPage, lastPage}) // debug log %> -->
 </section>

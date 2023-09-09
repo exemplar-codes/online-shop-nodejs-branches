@@ -280,3 +280,11 @@ table * {
   cursor: default;
   padding: 4px;
 }
+
+a.cleaned_link {
+  all: unset;
+}
+
+a:has(div.pagination-pill--selected) {
+  pointer-events: none;
+}
