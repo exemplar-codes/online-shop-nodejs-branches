@@ -1,5 +1,9 @@
 const express = require("express");
 const { check, body, query } = require("express-validator");
+const {
+  paginationMidddleware,
+  paginationLoggers,
+} = require("../util/middlewares/pagination");
 
 const router = express.Router();
 
@@ -12,7 +16,12 @@ router.get("/add-product", adminController.getAddProduct);
 router.get("/edit-product/:productId", adminController.getEditProduct);
 
 // admin/products => GET list of products added by admin
-router.get("/products", adminController.getAdminProducts);
+router.get(
+  "/products",
+  paginationMidddleware,
+  paginationLoggers,
+  adminController.getAdminProducts
+);
 
 // /admin/add-product => POST
 router.post("/add-product", adminController.postAddProduct);

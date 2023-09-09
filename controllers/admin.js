@@ -2,6 +2,7 @@ const { validationResult } = require("express-validator");
 const { Product } = require("../models/Product");
 const mongoose = require("mongoose");
 const { renderErrorPage } = require("./error");
+const rateLimiter = require("../util/middlewares/rate-limiter");
 
 const getAdminProducts = async (req, res, next) => {
   // Sequelize code, NOT USED NOW, left for observation
@@ -11,13 +12,27 @@ const getAdminProducts = async (req, res, next) => {
   // Note: for now, everyone is an admin and can edit everything, we'll re-add associated user later
   // const admin = req.user;
   // const products = await admin.fetchAllAssociatedProducts();
+
+  const { page, pageSize, offset } = res.locals.paginationParams;
+  const { skip, limit } = res.locals.dbPaginationParams;
+
+  const productsCount = await Product.count();
+
   const admin = req.user;
-  const products = await Product.find({ userId: admin._id });
+  const products = await Product.find({ userId: admin._id })
+    .skip(skip)
+    .limit(limit)
+    .lean();
 
   res.render("admin/products", {
     prods: products,
     docTitle: "Admin products",
     myActivePath: "/admin/products",
+
+    page,
+    pageSize,
+    offset,
+    total: productsCount,
   });
 };
 
@@ -53,6 +68,14 @@ const getEditProduct = async (req, res, next) => {
     docTitle: "Edit product",
     prod: product,
     editing: true,
+  });
+};
+
+const postAddProductRateLimiter = (req, res, next) => {
+  return rateLimiter(async (req, res) => {
+    const productCount = await Product.count();
+    console.log({ productCount });
+    return productCount > 25;
   });
 };
 
@@ -186,6 +209,7 @@ module.exports = {
   getAdminProducts,
   getAddProduct,
   postAddProduct,
+  postAddProductRateLimiter,
   deleteAllProducts,
   getEditProduct,
   postEditProduct,
