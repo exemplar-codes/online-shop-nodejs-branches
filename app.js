@@ -155,7 +155,7 @@ app.get("/try", async (req, res, next) => {
   return res.json({ password: "love", time: new Date().toLocaleTimeString() });
 });
 
-app.use(paginationLoggers, authRouter);
+app.use(authRouter);
 app.use("/admin", adminRoutes);
 app.use(shopRoutes);
 

@@ -1,12 +1,20 @@
 const express = require("express");
-const { paginationLoggers } = require("../util/middlewares/pagination");
+const {
+  paginationLoggers,
+  paginationMidddleware,
+} = require("../util/middlewares/pagination");
 
 const router = express.Router();
 
 const shopController = require("../controllers/shop");
 
 router.get("/", shopController.indexPage);
-router.get("/products", paginationLoggers, shopController.getProducts);
+router.get(
+  "/products",
+  paginationMidddleware,
+  paginationLoggers,
+  shopController.getProducts
+);
 router.get("/products/:productId", shopController.getProduct);
 router.get("/cart", shopController.cartPageUsingIncludesOperator); // router.get("/cart", shopController.cartPage);
 // router.get("/checkout", shopController.checkoutPage);
