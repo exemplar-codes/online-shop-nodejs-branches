@@ -28,6 +28,10 @@ const { User, prepopulateUsers } = require("./models/User");
 const { Product, prepopulateProducts } = require("./models/Product");
 const authRouter = require("./routes/auth.js");
 const { createWriteStream } = require("fs");
+const {
+  paginationMidddleware,
+  paginationLoggers,
+} = require("./util/middlewares/pagination.js");
 
 if (SERVER_FLAGS.AUTO_RELOAD_BROWSER) {
   const autoReloadBrowser = require("./util/auto-reload-browser.js");
@@ -97,6 +101,9 @@ app.use((req, res, next) => {
     dontValidateForms: true,
     exampleFilePicker: true,
     showMulterLogs: false,
+
+    printPaginationParams: false,
+    sendPaginationParams: false,
   };
 
   next();
@@ -146,7 +153,7 @@ app.get("/try", async (req, res, next) => {
   return res.json({ password: "love", time: new Date().toLocaleTimeString() });
 });
 
-app.use(authRouter);
+app.use(paginationLoggers, authRouter);
 app.use("/admin", adminRoutes);
 app.use(shopRoutes);
 
