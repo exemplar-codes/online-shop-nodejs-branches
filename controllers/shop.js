@@ -17,6 +17,7 @@ const { Order } = require("../models/Order");
 const Cart = require("../models/Cart");
 
 const indexPage = async (req, res, next) => {
+  return res.redirect('/products'); // fix shop being empty. Remove if when shop page is added.
   res.render("shop/index", {
     docTitle: "My shop",
     myActivePath: "shop-page",
