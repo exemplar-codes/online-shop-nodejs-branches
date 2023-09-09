@@ -1,18 +1,78 @@
 <section class="pagination">
-  <% let firstPage = 1;%>
-  <% let currentPage = page; %>
-  <% let lastPage = Math.ceil(total/pageSize); %>
+  <%
+    let firstPage = 1;
+    let currentPage = page;
+    let lastPage = Math.ceil(total/pageSize);
+  %>
+
+  <%
+    // can be used for dynamic control as well
+    const PAGINATION_FLAGS = {
+      showFirst: true, // currentPage - firstPage >= 2,
+      showPrevious: true,
+      showNext: true,
+      showLast: true, // lastPage - currentPage >= 2,
+    };
+  %>
+
+  <!-- first page -->
+  <% if (PAGINATION_FLAGS.showFirst) { %>
+    <a href="<%=`${myActivePath}?page=${firstPage}`%>" class="cleaned_link">
+      <div
+        class="pagination-pill <%= currentPage === firstPage ? 'pagination-pill--selected pagination-pill--disabled': ''%>"
+      >
+        <%= '<<' %>
+      </div>
+    </a>
+  <% } %>
+
+
+  <!-- previous page -->
+  <% if (PAGINATION_FLAGS.showPrevious) { %>
+    <a href="<%=`${myActivePath}?page=${currentPage - 1}`%>" class="cleaned_link" style="margin-right: 30px">
+      <div
+        class="pagination-pill <%= currentPage === firstPage ? 'pagination-pill--selected pagination-pill--disabled': ''%>"
+      >
+        <%= '<' %>
+      </div>
+    </a>
+  <% } %>
 
   <% for(let i = firstPage; i <= lastPage; i++) { %>
-    <!-- generating href for pagination buttons  -->
-    <% const hrefPath = myActivePath  %>
-    <% const queryParams = [`page=${i}`, (pageSize === 5 ? '': `pageSize=${pageSize}`), (offset === 0 ? '': `offset=${offset}`)].filter(i => !!i).join('&')  %>
-    <% const hrefAttributeValue = [hrefPath, queryParams].filter(i => !!i).join('?') %>
+    <!-- generating href for pagination button  -->
+    <%
+      const hrefPath = myActivePath;
+      const queryParams = [`page=${i}`, (pageSize === 5 ? '': `pageSize=${pageSize}`), (offset === 0 ? '': `offset=${offset}`)].filter(i => !!i).join('&');
+      const hrefAttributeValue = [hrefPath, queryParams].filter(i => !!i).join('?');
+    %>
     <a href="<%= hrefAttributeValue %>" class="cleaned_link">
       <div
         class="pagination-pill <%= i === currentPage ? 'pagination-pill--selected': ''%>"
       >
         <%= i %>
+      </div>
+    </a>
+  <% } %>
+
+
+  <!-- next page -->
+  <% if (PAGINATION_FLAGS.showNext) { %>
+    <a href="<%=`${myActivePath}?page=${currentPage + 1}`%>" class="cleaned_link" style="margin-left: 30px">
+      <div
+        class="pagination-pill <%= currentPage === lastPage ? 'pagination-pill--selected pagination-pill--disabled': ''%>"
+      >
+        <%= '>' %>
+      </div>
+    </a>
+  <% } %>
+
+    <!-- last page -->
+  <% if (PAGINATION_FLAGS.showLast) { %>
+    <a href="<%=`${myActivePath}?page=${lastPage}`%>" class="cleaned_link">
+      <div
+        class="pagination-pill <%= currentPage === lastPage ? 'pagination-pill--selected pagination-pill--disabled': ''%>"
+      >
+        <%= '>>' %>
       </div>
     </a>
   <% } %>

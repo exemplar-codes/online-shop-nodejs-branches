@@ -272,11 +272,18 @@ table * {
   cursor: pointer;
 }
 
-.pagination-pill--selected,
-.pagination-pill--selected:hover {
+.pagination-pill--selected {
   user-select: none;
-  background-color: var(--green);
+  background-color: var(--light-green);
   color: white;
+  cursor: default;
+  padding: 4px;
+}
+
+.pagination-pill--disabled {
+  user-select: none;
+  background-color: lightgray;
+  color: var(--green);
   cursor: default;
   padding: 4px;
 }
