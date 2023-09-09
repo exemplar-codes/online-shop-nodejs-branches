@@ -4,13 +4,17 @@
   <% let lastPage = Math.ceil(total/pageSize); %>
 
   <% for(let i = firstPage; i <= lastPage; i++) { %>
-  <a href="<%=`${myActivePath}?page=${i}`%>" class="cleaned_link">
-    <div
-      class="pagination-pill <%= i === currentPage ? 'pagination-pill--selected': ''%>"
-    >
-      <%= i %>
-    </div>
-  </a>
+    <!-- generating href for pagination buttons  -->
+    <% const hrefPath = myActivePath  %>
+    <% const queryParams = [`page=${i}`, (pageSize === 5 ? '': `pageSize=${pageSize}`), (offset === 0 ? '': `offset=${offset}`)].filter(i => !!i).join('&')  %>
+    <% const hrefAttributeValue = [hrefPath, queryParams].filter(i => !!i).join('?') %>
+    <a href="<%= hrefAttributeValue %>" class="cleaned_link">
+      <div
+        class="pagination-pill <%= i === currentPage ? 'pagination-pill--selected': ''%>"
+      >
+        <%= i %>
+      </div>
+    </a>
   <% } %>
 
   <!-- <%= JSON.stringify({firstPage, currentPage, lastPage}) // debug log %> -->
