@@ -10,7 +10,38 @@
 
 // group by filter_by, then accumulate values and their corresponding negatives
 
+// worry only about page, page_size and offset. Set default if input undefined or invalid
 function paginationMidddleware(req, res, next = () => {}) {
+  // 1. check and set undefined
+  const page = req.query.page ?? 1;
+  const page_size = req.query.page_size ?? 5;
+  const offset = req.query.offset ?? 0;
+
+  // 2. Find invalid values and fix them
+  // const paginationParams = {
+  //   page: req.query.page ?? 1,
+  //   page_size: req.query.page_size ?? 20,
+  //   offset: req.query.offset ?? 0,
+  // };
+
+  const paginationParams = {
+    page,
+    page_size,
+    offset,
+  };
+
+  res.locals.paginationParams = paginationParams;
+  next();
+  return paginationParams;
+}
+
+// assume array of Infinite size
+// arr
+//   .splice(0, offset)
+//   .chunkInto(Math.max(1, Math.min(20, page_size)))
+//   .at(Math.max(1, page - 1));
+
+function paginationMidddleware__experimental(req, res, next = () => {}) {
   const PAGINATION_KEYS = {
     PAGE: "page",
     PAGE_SIZE: "page_size",
@@ -71,4 +102,8 @@ function paginationLoggers(req, res, next = () => {}) {
   next();
 }
 
-module.exports = { paginationMidddleware, paginationLoggers };
+module.exports = {
+  paginationMidddleware,
+  paginationLoggers,
+  paginationMidddleware__experimental,
+};

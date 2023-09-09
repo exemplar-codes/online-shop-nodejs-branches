@@ -30,6 +30,9 @@ const getProducts = async (req, res, next) => {
     prods: products,
     docTitle: "Products",
     myActivePath: "/products",
+    page: res.locals.paginationParams.page,
+    pageSize: res.locals.paginationParams.page_size,
+    total: products.length,
   });
 };
 
