@@ -1,4 +1,4 @@
-const path = require("node:path");
+const path = require("path");
 const rootPath = require("./path");
 const liveReload = require("livereload");
 const connectLiveReload = require("connect-livereload");

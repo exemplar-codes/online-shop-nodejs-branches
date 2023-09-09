@@ -27,8 +27,8 @@ router.post("/orders", shopController.createOrder);
 
 // asset protection, make a conditional middleware that throws error if unauthorized
 const projectPath = require("../util/path");
-const path = require("node:path");
-const fs = require("node:fs");
+const path = require("path");
+const fs = require("fs");
 router.get("/invoices/:orderId", (req, res, next) => {
   const assetBelongsToUser = true;
   // const assetBelongsToUser = false; // mock that auth failed (not allowes)
