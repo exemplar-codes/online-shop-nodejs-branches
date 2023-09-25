@@ -13,7 +13,7 @@ const SERVER_FLAGS = {
   exampleFilePicker: false,
   showMulterLogs: false,
 
-  printPaginationParams: true,
+  printPaginationParams: false,
   sendPaginationParams: false,
 
   showRawDataControls: !!process.env.DEVELOPMENT_MODE,
